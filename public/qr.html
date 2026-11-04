@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>LUKA-AI | QR Code Login</title>
+
+  <meta name="description"
+    content="Link your WhatsApp account to LUKA-AI using QR Code. Fast, secure and simple.">
+
+  <meta name="theme-color" content="#eef1f5">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LUKA-AI | QR Code Login">
+  <meta property="og:description"
+    content="Scan a QR code to connect your WhatsApp with LUKA-AI.">
+  <meta property="og:image"
+    content="https://i.imgur.com/IgtuuGb.png">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    :root{
+      --bg:#eef1f5;
+      --surface:#eef1f5;
+
+      --text:#252933;
+      --muted:#7d8591;
+
+      --purple:#7c3aed;
+      --purple-dark:#6424d8;
+
+      --shadow-dark:#d2d6dc;
+      --shadow-light:#ffffff;
+    }
+
+    body.dark{
+      --bg:#20242b;
+      --surface:#20242b;
+
+      --text:#f1f3f6;
+      --muted:#9299a6;
+
+      --purple:#9b6cff;
+      --purple-dark:#b18cff;
+
+      --shadow-dark:#15181d;
+      --shadow-light:#2b3038;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+
+      background:var(--bg);
+      color:var(--text);
+
+      min-height:100vh;
+      overflow-x:hidden;
+
+      transition:
+        background .35s ease,
+        color .35s ease;
+    }
+
+    a{
+      text-decoration:none;
+    }
+
+    button{
+      font-family:inherit;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    header{
+      width:100%;
+
+      padding:20px 7%;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      position:relative;
+      z-index:100;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo img{
+      width:48px;
+      height:48px;
+
+      border-radius:15px;
+      object-fit:cover;
+
+      box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+
+      transition:.35s;
+    }
+
+    .logo h2{
+      font-size:18px;
+      font-weight:800;
+
+      color:var(--text);
+    }
+
+    .logo span{
+      display:block;
+
+      font-size:9px;
+      font-weight:700;
+
+      letter-spacing:1px;
+
+      color:var(--muted);
+
+      margin-top:2px;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .nav a{
+      padding:11px 17px;
+
+      border-radius:13px;
+
+      font-size:11px;
+      font-weight:700;
+
+      color:var(--muted);
+
+      transition:.25s;
+
+      box-shadow:
+        5px 5px 10px var(--shadow-dark),
+        -5px -5px 10px var(--shadow-light);
+    }
+
+    .nav a:hover{
+      color:var(--purple);
+    }
+
+    .nav a.active{
+      color:var(--purple);
+    }
+
+    /* ================= THEME ================= */
+
+    .theme-btn{
+      width:44px;
+      height:44px;
+
+      border:0;
+      border-radius:14px;
+
+      background:var(--surface);
+      color:var(--purple);
+
+      font-size:17px;
+
+      cursor:pointer;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+
+      transition:.25s;
+    }
+
+    .theme-btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .theme-btn:active{
+      transform:translateY(1px);
+
+      box-shadow:
+        inset 5px 5px 10px var(--shadow-dark),
+        inset -5px -5px 10px var(--shadow-light);
+    }
+
+    /* ================= MENU ================= */
+
+    .menu{
+      display:none;
+
+      width:43px;
+      height:43px;
+
+      border:0;
+      border-radius:13px;
+
+      background:var(--surface);
+      color:var(--purple);
+
+      font-size:19px;
+
+      cursor:pointer;
+
+      align-items:center;
+      justify-content:center;
+
+      box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+    }
+
+    /* ================= PAGE ================= */
+
+    .page{
+      min-height:calc(100vh - 90px);
+
+      padding:35px 6% 55px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .container{
+      width:100%;
+      max-width:470px;
+    }
+
+    /* ================= HEADER ================= */
+
+    .page-header{
+      text-align:center;
+
+      margin-bottom:28px;
+
+      animation:fadeUp .7s ease;
+    }
+
+    .logo-box{
+      width:90px;
+      height:90px;
+
+      padding:8px;
+
+      margin:0 auto 18px;
+
+      border-radius:23px;
+
+      background:var(--surface);
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      box-shadow:
+        10px 10px 22px var(--shadow-dark),
+        -10px -10px 22px var(--shadow-light);
+    }
+
+    .logo-box img{
+      width:74px;
+      height:74px;
+
+      border-radius:17px;
+
+      object-fit:cover;
+    }
+
+    .label{
+      color:var(--purple);
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:3px;
+
+      margin-bottom:7px;
+    }
+
+    .page-header h1{
+      font-size:27px;
+      font-weight:800;
+
+      margin-bottom:6px;
+    }
+
+    .page-header p{
+      color:var(--muted);
+
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    /* ================= CARD ================= */
+
+    .card{
+      background:var(--surface);
+
+      padding:28px;
+
+      border-radius:25px;
+
+      box-shadow:
+        13px 13px 28px var(--shadow-dark),
+        -13px -13px 28px var(--shadow-light);
+
+      animation:zoomIn .8s ease;
+    }
+
+    /* ================= SESSION ================= */
+
+    .session-title{
+      display:block;
+
+      color:var(--muted);
+
+      font-size:10px;
+      font-weight:800;
+
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+
+      margin-bottom:10px;
+    }
+
+    .session-option{
+      width:100%;
+
+      border:0;
+
+      border-radius:15px;
+
+      padding:13px;
+
+      background:var(--surface);
+
+      color:var(--text);
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      cursor:pointer;
+
+      margin-bottom:10px;
+
+      transition:.2s;
+
+      box-shadow:
+        5px 5px 10px var(--shadow-dark),
+        -5px -5px 10px var(--shadow-light);
+    }
+
+    .session-option:hover{
+      transform:translateY(-1px);
+    }
+
+    .session-option.selected{
+      box-shadow:
+        inset 5px 5px 10px var(--shadow-dark),
+        inset -5px -5px 10px var(--shadow-light),
+        0 0 0 1px rgba(124,58,237,.15);
+    }
+
+    .session-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .session-icon{
+      width:38px;
+      height:38px;
+
+      border-radius:12px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      color:var(--muted);
+
+      background:var(--surface);
+
+      box-shadow:
+        4px 4px 8px var(--shadow-dark),
+        -4px -4px 8px var(--shadow-light);
+    }
+
+    .session-option.selected .session-icon{
+      background:var(--purple);
+      color:white;
+    }
+
+    .session-name{
+      color:var(--text);
+
+      font-size:12px;
+      font-weight:700;
+
+      text-align:left;
+    }
+
+    .session-desc{
+      color:var(--muted);
+
+      font-size:10px;
+
+      margin-top:3px;
+
+      text-align:left;
+    }
+
+    .radio{
+      width:17px;
+      height:17px;
+
+      border-radius:50%;
+
+      border:2px solid #c9ccd2;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      flex-shrink:0;
+    }
+
+    .radio.selected{
+      background:var(--purple);
+      border-color:var(--purple);
+    }
+
+    .radio-dot{
+      width:6px;
+      height:6px;
+
+      border-radius:50%;
+
+      background:#fff;
+    }
+
+    /* ================= BUTTON ================= */
+
+    .btn{
+      display:inline-flex;
+
+      align-items:center;
+      justify-content:center;
+
+      gap:8px;
+
+      border:0;
+
+      border-radius:14px;
+
+      cursor:pointer;
+
+      font-weight:800;
+      font-size:12px;
+
+      transition:.2s;
+    }
+
+    .btn-primary{
+      width:100%;
+
+      height:50px;
+
+      background:var(--purple);
+
+      color:#fff;
+
+      box-shadow:
+        8px 8px 17px rgba(124,58,237,.25),
+        -7px -7px 15px var(--shadow-light);
+    }
+
+    .btn-primary:hover{
+      background:var(--purple-dark);
+
+      transform:translateY(-2px);
+    }
+
+    .btn-primary:active{
+      transform:translateY(1px);
+    }
+
+    .btn-primary:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    /* ================= LOADING ================= */
+
+    .spinner{
+      width:17px;
+      height:17px;
+
+      border:2px solid rgba(255,255,255,.35);
+      border-top-color:#fff;
+
+      border-radius:50%;
+
+      animation:spin .7s linear infinite;
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    /* ================= QR RESULT ================= */
+
+    .qr-result{
+      display:none;
+
+      text-align:center;
+    }
+
+    .qr-title-icon{
+      width:55px;
+      height:55px;
+
+      margin:0 auto 14px;
+
+      border-radius:17px;
+
+      background:var(--surface);
+
+      color:var(--purple);
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+    }
+
+    .qr-result h2{
+      color:var(--text);
+
+      font-size:15px;
+      font-weight:800;
+
+      margin-bottom:5px;
+    }
+
+    .qr-result p{
+      color:var(--muted);
+
+      font-size:10px;
+      line-height:1.6;
+    }
+
+    .qr-box{
+      width:250px;
+      min-height:250px;
+
+      padding:15px;
+
+      margin:20px auto;
+
+      border-radius:20px;
+
+      background:#fff;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      box-shadow:
+        7px 7px 15px var(--shadow-dark),
+        -7px -7px 15px var(--shadow-light);
+    }
+
+    .qr-box img{
+      width:220px;
+      height:220px;
+
+      object-fit:contain;
+
+      display:block;
+    }
+
+    .qr-loading{
+      color:var(--muted);
+
+      font-size:11px;
+
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+
+    .qr-loading .spinner{
+      border-color:rgba(124,58,237,.2);
+      border-top-color:var(--purple);
+    }
+
+    .qr-error{
+      display:none;
+
+      color:#ef4444;
+
+      font-size:10px;
+
+      margin:10px 0;
+    }
+
+    /* ================= GUIDE ================= */
+
+    .guide{
+      margin-top:22px;
+
+      padding:17px;
+
+      border-radius:18px;
+
+      background:var(--surface);
+
+      box-shadow:
+        inset 5px 5px 10px var(--shadow-dark),
+        inset -5px -5px 10px var(--shadow-light);
+    }
+
+    .guide-title{
+      color:var(--purple);
+
+      font-size:11px;
+      font-weight:800;
+
+      display:flex;
+      align-items:center;
+
+      gap:7px;
+
+      margin-bottom:12px;
+    }
+
+    .step{
+      display:flex;
+
+      align-items:flex-start;
+
+      gap:10px;
+
+      padding:8px;
+
+      border-radius:11px;
+    }
+
+    .step-number{
+      width:23px;
+      height:23px;
+
+      flex-shrink:0;
+
+      border-radius:50%;
+
+      background:var(--purple);
+      color:#fff;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:9px;
+      font-weight:800;
+    }
+
+    .step p{
+      color:var(--muted);
+
+      font-size:10px;
+
+      line-height:1.6;
+
+      padding-top:3px;
+    }
+
+    .step strong{
+      color:var(--text);
+    }
+
+    /* ================= PAIR LINK ================= */
+
+    .pair-link{
+      margin-top:18px;
+
+      padding-top:16px;
+
+      border-top:1px solid rgba(163,169,180,.2);
+
+      display:flex;
+
+      align-items:center;
+      justify-content:center;
+
+      gap:7px;
+
+      color:var(--muted);
+
+      font-size:10px;
+    }
+
+    .pair-link a{
+      color:var(--purple);
+
+      font-weight:700;
+    }
+
+    /* ================= FEATURES ================= */
+
+    .features{
+      display:grid;
+
+      grid-template-columns:repeat(3,1fr);
+
+      gap:10px;
+
+      margin-top:18px;
+    }
+
+    .feature{
+      padding:13px 8px;
+
+      border-radius:14px;
+
+      text-align:center;
+
+      background:var(--surface);
+
+      box-shadow:
+        5px 5px 10px var(--shadow-dark),
+        -5px -5px 10px var(--shadow-light);
+    }
+
+    .feature i{
+      color:var(--purple);
+
+      font-size:14px;
+
+      margin-bottom:6px;
+    }
+
+    .feature p{
+      color:var(--muted);
+
+      font-size:9px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    .divider{
+      height:1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(163,169,180,.35),
+          transparent
+        );
+    }
+
+    footer{
+      padding:28px 20px;
+
+      background:var(--surface);
+
+      text-align:center;
+
+      color:var(--muted);
+
+      font-size:9px;
+    }
+
+    footer strong{
+      color:var(--purple);
+    }
+
+    /* ================= ANIMATION ================= */
+
+    @keyframes fadeUp{
+
+      from{
+        opacity:0;
+        transform:translateY(22px);
+      }
+
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+
+    }
+
+    @keyframes zoomIn{
+
+      from{
+        opacity:0;
+        transform:scale(.95);
+      }
+
+      to{
+        opacity:1;
+        transform:scale(1);
+      }
+
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media(max-width:900px){
+
+      header{
+        padding:17px 5%;
+      }
+
+      .nav{
+        display:none;
+      }
+
+      .menu{
+        display:flex;
+      }
+
+    }
+
+    @media(max-width:500px){
+
+      .logo img{
+        width:43px;
+        height:43px;
+      }
+
+      .logo h2{
+        font-size:16px;
+      }
+
+      .card{
+        padding:22px 18px;
+
+        border-radius:21px;
+      }
+
+      .page{
+        padding:30px 5% 50px;
+      }
+
+      .page-header h1{
+        font-size:24px;
+      }
+
+      .qr-box{
+        width:225px;
+        min-height:225px;
+      }
+
+      .qr-box img{
+        width:195px;
+        height:195px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= HEADER ================= -->
+
+  <header>
+
+    <a href="/" class="logo">
+
+      <img
+        src="https://i.imgur.com/IgtuuGb.png"
+        alt="LUKA-AI">
+
+      <div>
+
+        <h2>LUKA-AI</h2>
+
+        <span>WHATSAPP BOT</span>
+
+      </div>
+
+    </a>
+
+
+    <nav class="nav">
+
+      <a href="/">
+        HOME
+      </a>
+
+      <a href="/pair">
+        PAIR CODE
+      </a>
+
+      <a href="/qr" class="active">
+        QR CODE
+      </a>
+
+      <a
+        href="https://github.com/Lucvoice/LUKA-AI"
+        target="_blank">
+
+        GITHUB
+
+      </a>
+
+    </nav>
+
+
+    <button
+      class="theme-btn"
+      id="themeBtn"
+      onclick="toggleTheme()">
+
+      🌙
+
+    </button>
+
+
+    <button
+      class="menu"
+      id="menuBtn"
+      onclick="toggleMenu()">
+
+      ☰
+
+    </button>
+
+  </header>
+
+
+  <!-- ================= MAIN ================= -->
+
+  <main class="page">
+
+    <div class="container">
+
+
+      <!-- PAGE HEADER -->
+
+      <div class="page-header">
+
+        <div class="logo-box">
+
+          <img
+            src="https://i.imgur.com/IgtuuGb.png"
+            alt="LUKA-AI">
+
+        </div>
+
+
+        <div class="label">
+          // QR CODE LOGIN
+        </div>
+
+
+        <h1>
+          Connect Your WhatsApp
+        </h1>
+
+
+        <p>
+          Scan the QR code in WhatsApp → Linked Devices
+        </p>
+
+      </div>
+
+
+      <!-- ================= CARD ================= -->
+
+      <div class="card">
+
+
+        <!-- SETUP -->
+
+        <div id="setupSection">
+
+
+          <div style="margin-bottom:20px;">
+
+            <div class="session-title">
+              Session Type
+            </div>
+
+
+            <!-- LONG -->
+
+            <button
+              type="button"
+              id="typeLong"
+              onclick="selectType('long')"
+              class="session-option selected">
+
+              <div class="session-left">
+
+                <div class="session-icon">
+
+                  <i class="fas fa-file-code"></i>
+
+                </div>
+
+                <div>
+
+                  <div class="session-name">
+                    Long Session
+                  </div>
+
+                  <div class="session-desc">
+                    Full session string
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                id="longRadio"
+                class="radio selected">
+
+                <div class="radio-dot"></div>
+
+              </div>
+
+            </button>
+
+
+            <!-- SHORT -->
+
+            <button
+              type="button"
+              id="typeShort"
+              onclick="selectType('short')"
+              class="session-option">
+
+              <div class="session-left">
+
+                <div class="session-icon">
+
+                  <i class="fas fa-database"></i>
+
+                </div>
+
+                <div>
+
+                  <div class="session-name">
+                    Short Session
+                  </div>
+
+                  <div class="session-desc">
+                    Lightweight session format
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                id="shortRadio"
+                class="radio">
+              </div>
+
+            </button>
+
+          </div>
+
+
+          <!-- GENERATE -->
+
+          <button
+            id="generateBtn"
+            onclick="startQR()"
+            class="btn btn-primary">
+
+            <i class="fas fa-qrcode"></i>
+
+            <span id="generateText">
+              GENERATE QR CODE
+            </span>
+
+            <span
+              id="loadingText"
+              style="display:none;align-items:center;gap:8px;">
+
+              <span class="spinner"></span>
+
+              Generating...
+
+            </span>
+
+          </button>
+
+
+          <!-- ERROR -->
+
+          <div
+            id="qrError"
+            class="qr-error">
+          </div>
+
+
+          <!-- GUIDE -->
+
+          <div class="guide">
+
+            <div class="guide-title">
+
+              <i class="fas fa-circle-info"></i>
+
+              How to connect
+
+            </div>
+
+
+            <div class="step">
+
+              <div class="step-number">
+                1
+              </div>
+
+              <p>
+                Choose your preferred session type.
+              </p>
+
+            </div>
+
+
+            <div class="step">
+
+              <div class="step-number">
+                2
+              </div>
+
+              <p>
+
+                Click
+
+                <strong>
+                  GENERATE QR CODE
+                </strong>
+
+                to start.
+
+              </p>
+
+            </div>
+
+
+            <div class="step">
+
+              <div class="step-number">
+                3
+              </div>
+
+              <p>
+
+                Open WhatsApp →
+
+                <strong>
+                  Settings → Linked Devices
+                </strong>
+
+              </p>
+
+            </div>
+
+
+            <div class="step">
+
+              <div class="step-number">
+                4
+              </div>
+
+              <p>
+
+                Tap
+
+                <strong>
+                  Link a Device
+                </strong>
+
+                and scan the QR code.
+
+              </p>
+
+            </div>
+
+
+            <div class="step">
+
+              <div class="step-number">
+                5
+              </div>
+
+              <p>
+
+                Your session will be sent via WhatsApp ✅
+
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- PAIR LINK -->
+
+          <div class="pair-link">
+
+            <span>
+              Prefer typing?
+            </span>
+
+            <a href="/pair">
+
+              <i class="fas fa-link"></i>
+
+              Use Pair Code instead
+
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <!-- ================= QR RESULT ================= -->
+
+        <div
+          id="qrResult"
+          class="qr-result">
+
+
+          <div class="qr-title-icon">
+
+            <i
+              class="fas fa-qrcode"
+              style="font-size:21px;">
+            </i>
+
+          </div>
+
+
+          <h2>
+            Scan QR Code
+          </h2>
+
+
+          <p>
+            Open WhatsApp → Linked Devices →
+            Link a Device → Scan this code
+          </p>
+
+
+          <!-- QR -->
+
+          <div class="qr-box">
+
+            <div
+              id="qrLoading"
+              class="qr-loading">
+
+              <span class="spinner"></span>
+
+              Loading QR...
+
+            </div>
+
+
+            <img
+              id="qrImage"
+              alt="LUKA-AI WhatsApp QR Code"
+              style="display:none;">
+
+          </div>
+
+
+          <p>
+            Keep this page open while connecting.
+          </p>
+
+
+          <!-- NEW QR -->
+
+          <div
+            style="
+              display:flex;
+              justify-content:center;
+              gap:10px;
+              margin-top:18px;
+            ">
+
+            <button
+              onclick="newQR()"
+              class="btn"
+              style="
+                padding:10px 17px;
+                background:var(--surface);
+                color:var(--purple);
+
+                box-shadow:
+                  5px 5px 10px var(--shadow-dark),
+                  -5px -5px 10px var(--shadow-light);
+              ">
+
+              <i class="fas fa-rotate"></i>
+
+              New QR
+
+            </button>
+
+
+            <a
+              href="/pair"
+              class="btn"
+              style="
+                padding:10px 17px;
+                background:var(--surface);
+                color:var(--muted);
+
+                box-shadow:
+                  5px 5px 10px var(--shadow-dark),
+                  -5px -5px 10px var(--shadow-light);
+              ">
+
+              <i class="fas fa-link"></i>
+
+              Pair Code
+
+            </a>
+
+          </div>
+
+
+          <div style="margin-top:20px;">
+
+            <a
+              href="/"
+              style="
+                color:var(--muted);
+                font-size:10px;
+              ">
+
+              <i class="fas fa-arrow-left"></i>
+
+              Back to Home
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- FEATURES -->
+
+      <div class="features">
+
+        <div class="feature">
+
+          <i class="fas fa-shield-halved"></i>
+
+          <p>
+            Encrypted
+          </p>
+
+        </div>
+
+
+        <div class="feature">
+
+          <i class="fas fa-bolt"></i>
+
+          <p>
+            Instant
+          </p>
+
+        </div>
+
+
+        <div class="feature">
+
+          <i class="fas fa-mobile-screen"></i>
+
+          <p>
+            Secure
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <div class="divider"></div>
+
+  <footer>
+
+    © <span id="yr"></span>
+
+    <strong>
+      LUKA-AI
+    </strong>
+
+    — WhatsApp Automation Platform
+
+  </footer>
+
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script>
+
+    /* ================= YEAR ================= */
+
+    document.getElementById("yr").textContent =
+      new Date().getFullYear();
+
+
+    /* ================= THEME ================= */
+
+    const themeBtn =
+      document.getElementById("themeBtn");
+
+
+    function setTheme(mode){
+
+      if(mode === "dark"){
+
+        document.body.classList.add("dark");
+
+        themeBtn.textContent = "☀️";
+
+        localStorage.setItem(
+          "luka-theme",
+          "dark"
+        );
+
+      }else{
+
+        document.body.classList.remove("dark");
+
+        themeBtn.textContent = "🌙";
+
+        localStorage.setItem(
+          "luka-theme",
+          "light"
+        );
+
+      }
+
+    }
+
+
+    function toggleTheme(){
+
+      const dark =
+        document.body.classList.contains("dark");
+
+      setTheme(
+        dark ? "light" : "dark"
+      );
+
+    }
+
+
+    const savedTheme =
+      localStorage.getItem("luka-theme");
+
+
+    if(savedTheme === "dark"){
+
+      setTheme("dark");
+
+    }else{
+
+      setTheme("light");
+
+    }
+
+
+    /* ================= MOBILE MENU ================= */
+
+    function toggleMenu(){
+
+      const nav =
+        document.querySelector(".nav");
+
+
+      if(nav.style.display === "flex"){
+
+        nav.style.display = "none";
+
+      }else{
+
+        nav.style.display = "flex";
+
+        nav.style.position = "absolute";
+
+        nav.style.top = "78px";
+
+        nav.style.right = "5%";
+
+        nav.style.flexDirection = "column";
+
+        nav.style.alignItems = "stretch";
+
+        nav.style.padding = "15px";
+
+        nav.style.gap = "10px";
+
+        nav.style.borderRadius = "18px";
+
+        nav.style.background =
+          "var(--surface)";
+
+        nav.style.boxShadow =
+          "10px 10px 22px var(--shadow-dark), -10px -10px 22px var(--shadow-light)";
+
+      }
+
+    }
+
+
+    /* ================= SESSION ================= */
+
+    let selectedType = "long";
+
+
+    function selectType(type){
+
+      selectedType = type;
+
+
+      const shortBtn =
+        document.getElementById("typeShort");
+
+      const longBtn =
+        document.getElementById("typeLong");
+
+      const shortRadio =
+        document.getElementById("shortRadio");
+
+      const longRadio =
+        document.getElementById("longRadio");
+
+
+      if(type === "short"){
+
+        shortBtn.classList.add("selected");
+
+        longBtn.classList.remove("selected");
+
+
+        shortRadio.classList.add("selected");
+
+        shortRadio.innerHTML =
+          '<div class="radio-dot"></div>';
+
+
+        longRadio.classList.remove("selected");
+
+        longRadio.innerHTML = "";
+
+      }else{
+
+        longBtn.classList.add("selected");
+
+        shortBtn.classList.remove("selected");
+
+
+        longRadio.classList.add("selected");
+
+        longRadio.innerHTML =
+          '<div class="radio-dot"></div>';
+
+
+        shortRadio.classList.remove("selected");
+
+        shortRadio.innerHTML = "";
+
+      }
+
+    }
+
+
+    /* ================= START QR ================= */
+
+    async function startQR(){
+
+      const btn =
+        document.getElementById("generateBtn");
+
+      const generateText =
+        document.getElementById("generateText");
+
+      const loadingText =
+        document.getElementById("loadingText");
+
+      const error =
+        document.getElementById("qrError");
+
+
+      error.style.display = "none";
+
+
+      btn.disabled = true;
+
+      generateText.style.display = "none";
+
+      loadingText.style.display = "flex";
+
+
+      try{
+
+        /*
+          Your server should provide:
+
+          /qr/session?type=long
+
+          or
+
+          /qr/session?type=short
+        */
+
+        window.location.href =
+          `/qr/session?type=${encodeURIComponent(selectedType)}`;
+
+
+      }catch(e){
+
+        error.textContent =
+          "Unable to start QR session. Please try again.";
+
+        error.style.display =
+          "block";
+
+        btn.disabled = false;
+
+        generateText.style.display =
+          "inline";
+
+        loadingText.style.display =
+          "none";
+
+      }
+
+    }
+
+
+    /* ================= NEW QR ================= */
+
+    function newQR(){
+
+      document.getElementById("qrResult").style.display =
+        "none";
+
+      document.getElementById("setupSection").style.display =
+        "block";
+
+      document.getElementById("qrImage").style.display =
+        "none";
+
+      document.getElementById("qrLoading").style.display =
+        "flex";
+
+    }
+
+  </script>
+
+</body>
+  </html>
