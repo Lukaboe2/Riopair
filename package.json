@@ -1,0 +1,27 @@
+{
+  "name": "luka-pair",
+  "version": "1.0.0",
+  "description": "LUKA-AI WhatsApp pairing and session generator",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "engines": {
+    "node": ">=20 <23"
+  },
+  "author": "LUKABRAND",
+  "license": "MIT",
+  "dependencies": {
+    "@whiskeysockets/baileys": "6.7.21",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "gifted-btns": "*",
+    "mongoose": "^8.9.5",
+    "pg": "^8.13.1",
+    "pino": "^9.6.0",
+    "qrcode": "^1.5.4"
+  }
+}

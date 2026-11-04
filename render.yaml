@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: luka-pair
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.16.0
+      - key: SESSION_PREFIX
+        value: LUKA~
+      - key: DATABASE_URL
+        sync: false
