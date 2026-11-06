@@ -1,2 +1,2 @@
-/* Vercel-only deployment: API requests use this same Vercel domain. */
-window.LUKA_API_BASE = "";
+/* LUKA-AI Pair API — Railway backend */
+window.LUKA_API_BASE = "https://web-production-0268d.up.railway.app";
