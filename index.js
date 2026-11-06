@@ -8,12 +8,35 @@ const { init, isConfigured, getSession } = require("./luka/sessionStore");
 const app = express();
 app.set("json spaces", 2);
 
-// CORS: allow the Vercel static frontend to call the Railway API.
+// CORS: allow the Vercel static frontend to call this Railway API.
+// Set FRONTEND_URL on Railway to your exact Vercel origin.
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    const allowedOrigin = process.env.FRONTEND_URL || "*";
+    const requestOrigin = req.headers.origin;
+    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+    res.setHeader("Vary", "Origin");
     res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     if (req.method === "OPTIONS") return res.sendStatus(204);
+    if (allowedOrigin !== "*" && requestOrigin && requestOrigin !== allowedOrigin) {
+        return res.status(403).json({ success: false, message: "Origin not allowed" });
+    }
+    next();
+});
+
+// Allow the Vercel-hosted frontend to call this Railway API.
+// Set FRONTEND_URL on Railway to restrict access to your own website.
+app.use((req, res, next) => {
+    const allowedOrigin = process.env.FRONTEND_URL || "*";
+    const requestOrigin = req.headers.origin;
+    res.setHeader("Access-Control-Allow-Origin", allowedOrigin === "*" ? "*" : allowedOrigin);
+    res.setHeader("Vary", "Origin");
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    if (req.method === "OPTIONS") return res.sendStatus(204);
+    if (allowedOrigin !== "*" && requestOrigin && requestOrigin !== allowedOrigin) {
+        return res.status(403).json({ success: false, message: "Origin not allowed" });
+    }
     next();
 });
 
