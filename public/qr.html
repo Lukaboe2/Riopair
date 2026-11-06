@@ -1467,6 +1467,7 @@
 
   <!-- ================= JAVASCRIPT ================= -->
 
+  <script src="/api-config.js"></script>
   <script>
 
     /* ================= YEAR ================= */
@@ -1682,7 +1683,7 @@
         */
 
         window.location.href =
-          `/qr/session?type=${encodeURIComponent(selectedType)}`;
+          `${window.LUKA_API_BASE}/qr/session?type=${encodeURIComponent(selectedType)}`;
 
 
       }catch(e){

@@ -1546,6 +1546,7 @@
 
   <!-- ================= JAVASCRIPT ================= -->
 
+  <script src="/api-config.js"></script>
   <script>
 
     /* ================= YEAR ================= */
@@ -1885,7 +1886,7 @@
 
           const res =
             await fetch(
-              `/code?number=${encodeURIComponent(num)}&type=${selectedType}`
+              `${window.LUKA_API_BASE}/code?number=${encodeURIComponent(num)}&type=${selectedType}`
             );
 
 
