@@ -60,3 +60,35 @@ Railway supplies `PORT` automatically. The app listens on that port.
 ## Render
 
 The `render.yaml` file is retained for users deploying on Render. Railway and Koyeb use the included Dockerfile.
+
+
+## Recommended deployment: Vercel frontend + Railway API
+
+This project can be deployed as two services because Baileys needs a persistent Node.js process.
+
+### 1. Deploy the backend on Railway
+1. Push this project to GitHub.
+2. In Railway, create a new project and deploy the GitHub repository. Railway will use the included `Dockerfile` and `railway.json`.
+3. In the Railway service settings, generate a public domain. Copy the HTTPS domain.
+4. Add these variables in Railway (set `FRONTEND_URL` to your actual Vercel website origin):
+   - `SESSION_PREFIX=LUKA~`
+   - `FRONTEND_URL=https://YOUR-VERCEL-DOMAIN.vercel.app`
+   - `GC_JID=` (optional)
+   - `BOT_REPO=https://github.com/Lukabrand/LUKA-XMD`
+   - `WA_CHANNEL=https://whatsapp.com/channel/0029Vb9cTL57z4kh6oBTcr3h`
+   - `DATABASE_URL=` (optional; required only if you want database-backed short sessions)
+5. Wait for deployment, then open `https://YOUR-RAILWAY-DOMAIN/health`. It should return JSON with `success: true`.
+
+### 2. Configure and deploy the frontend on Vercel
+1. Open `public/api-config.js`.
+2. Replace `https://YOUR-RAILWAY-DOMAIN.up.railway.app` with the exact Railway HTTPS domain (no trailing slash).
+3. In Vercel, import the same GitHub repository. Keep the project Root Directory at the repository root (default), so `vercel.json` is applied.
+4. Deploy. The `public` folder contains the static pages and `api-config.js`.
+5. Open the Vercel domain, visit `/pair`, and request a pair code. The QR page also sends its session request to Railway.
+
+### Important
+- Do not deploy the backend as a Vercel static-only project.
+- If you change the Vercel domain, update Railway's `FRONTEND_URL` and redeploy/restart the Railway service.
+- If Railway's domain changes, update `public/api-config.js` and redeploy Vercel.
+- A database is optional for long sessions. Short sessions require a working MongoDB or PostgreSQL `DATABASE_URL`; without it, the backend returns the full session string instead.
+
