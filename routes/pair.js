@@ -22,6 +22,20 @@ const {
 
 const sessionDir = path.join(__dirname, "session");
 
+// Fetch the Baileys version once and reuse it for all pairing requests/reconnects.
+let latestVersionPromise;
+function getLatestVersion() {
+    if (!latestVersionPromise) {
+        latestVersionPromise = fetchLatestBaileysVersion()
+            .then(result => result.version)
+            .catch(error => {
+                latestVersionPromise = null;
+                throw error;
+            });
+    }
+    return latestVersionPromise;
+}
+
 // Cleanup stale session dirs older than 10 minutes on startup
 try {
     if (fs.existsSync(sessionDir)) {
@@ -62,7 +76,7 @@ router.get('/', async (req, res) => {
     }
 
     async function GIFTED_PAIR_CODE() {
-        const { version } = await fetchLatestBaileysVersion();
+        const version = await getLatestVersion();
        // console.log(`[pair:${id}] version:`, version, '| registered:', false);
         const { state, saveCreds } = await useMultiFileAuthState(path.join(sessionDir, id));
 
@@ -108,22 +122,28 @@ router.get('/', async (req, res) => {
                 pairingDone = true;
                // console.log(`[pair:${id}] Pairing complete — connection open, saving session`);
                 try {
-                    try { await Gifted.groupAcceptInvite(GC_JID); } catch (_) {}
-
-                    await delay(50000);
-
+                    // Do not wait for optional group joining before creating the session.
+                    // creds.update is already attached above; wait only until creds.json is saved.
                     let sessionData = null;
-                    let attempts = 0;
-                    while (attempts < 15 && !sessionData) {
+                    const credsPath = path.join(sessionDir, id, "creds.json");
+                    const deadline = Date.now() + 15000;
+
+                    while (Date.now() < deadline && !sessionData) {
                         try {
-                            const credsPath = path.join(sessionDir, id, "creds.json");
                             if (fs.existsSync(credsPath)) {
-                                const data = fs.readFileSync(credsPath);
-                                if (data && data.length > 100) { sessionData = data; break; }
+                                const data = await fs.promises.readFile(credsPath);
+                                if (data.length > 100) {
+                                    const savedCreds = JSON.parse(data.toString('utf8'));
+                                    if (savedCreds.registered === true) {
+                                        sessionData = data;
+                                        break;
+                                    }
+                                }
                             }
-                            await delay(8000);
-                        } catch (_) { await delay(2000); }
-                        attempts++;
+                        } catch (_) {
+                            // saveCreds may still be writing; retry shortly.
+                        }
+                        await delay(250);
                     }
 
                     if (!sessionData) { await cleanUpSession(); return; }
@@ -151,7 +171,6 @@ router.get('/', async (req, res) => {
                         ];
                     }
 
-                    await delay(5000);
                     let sessionSent = false, sendAttempts = 0;
                     while (sendAttempts < 5 && !sessionSent) {
                         try {
@@ -184,14 +203,14 @@ router.get('/', async (req, res) => {
                 // WhatsApp sends 515 (restart required) after pairing code entry — must reconnect
                 reconnectCount++;
                // console.log(`[pair:${id}] Reconnect #${reconnectCount} in 5s (status ${statusCode})`);
-                await delay(5000);
+                await delay(1500);
                 GIFTED_PAIR_CODE();
             }
         });
 
         // Request pairing code AFTER listeners are attached (avoids missing close events)
         if (!Gifted.authState.creds.registered) {
-            await delay(2000); // brief wait for WS to establish
+            await delay(500); // short socket warm-up; listeners are already attached
           //  console.log(`[pair:${id}] Requesting pairing code for ${num}`);
             try {
                 const code = await Gifted.requestPairingCode(num);
